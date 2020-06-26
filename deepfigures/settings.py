@@ -41,7 +41,7 @@ TENSORBOX_MODEL = {
 }
 
 # paths to binary dependencies
-PDFFIGURES_JAR_NAME = 'pdffigures2-assembly-0.0.12-SNAPSHOT.jar'
+PDFFIGURES_JAR_NAME = 'pdffigures2-assembly-0.1.0.jar'
 PDFFIGURES_JAR_PATH = os.path.join(
     BASE_DIR,
     'bin/',
@@ -54,9 +54,9 @@ DEEPFIGURES_PDF_RENDERER = 'deepfigures.extraction.renderers.GhostScriptRenderer
 # settings for data generation
 
 # The location to temporarily store arxiv source data
-ARXIV_DATA_TMP_DIR = ''
+ARXIV_DATA_TMP_DIR = 'ARXIV_TEMP'
 # The location to store the final output labels
-ARXIV_DATA_OUTPUT_DIR = ''
+ARXIV_DATA_OUTPUT_DIR = 'ARXIV_OUTPUT'
 
 # The location of the PMC open access data
 PUBMED_INPUT_DIR = ''
@@ -66,4 +66,4 @@ PUBMED_INTERMEDIATE_DIR = ''
 PUBMED_DISTANT_DATA_DIR = ''
 
 # a local directory for storing the output data
-LOCAL_PUBMED_DISTANT_DATA_DIR = ''
+LOCAL_PUBMED_DISTANT_DATA_DIR = 'PUBMED_OUTPUT'

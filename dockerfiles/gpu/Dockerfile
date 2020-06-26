@@ -1,10 +1,17 @@
 # docker image for running DeepFigures on a gpu
 
-FROM tensorflow/tensorflow:latest-gpu-py3
+FROM tensorflow/tensorflow:1.15.0-gpu-py3
 
 ENV LC_ALL C.UTF-8
 
+# Turn off Debian frontend
+# Having this fueature on causes issues on windows computers
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+
 # install system packages
+
 
 RUN apt-get clean \
  && apt-get update --fix-missing \
@@ -18,8 +25,7 @@ RUN apt-get clean \
     zlib1g-dev \
     libjpeg8-dev \
     libtiff5-dev \
-    libjasper-dev \
-    libpng12-dev \
+    libpng-dev \
     tcl-dev \
     tk-dev \
     python3 \

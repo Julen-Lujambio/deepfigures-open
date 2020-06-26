@@ -13,8 +13,7 @@ import collections
 from typing import List, Optional, Tuple
 
 import numpy as np
-from scipy.ndimage import imread
-from scipy.misc import imsave
+from imageio import imread, imsave
 from skimage import measure
 from PIL import Image
 import scipy as sp
@@ -280,7 +279,7 @@ def consume_diff_generate_figures(diff) -> Optional[List[Figure]]:
         pagenum + 1
     )
     try:
-        page_image = sp.ndimage.imread(page_image_name)
+        page_image = imread(page_image_name)
         diff_im = imread(diff)
     except Image.DecompressionBombWarning as e:
         logging.warning('Image %s too large, failed to read' % page_image_name)

@@ -5,7 +5,7 @@ import os
 from typing import List, Tuple, Iterable
 
 import cv2  # Need to import OpenCV before tensorflow to avoid import error
-from scipy.misc import imread, imsave
+from imageio import imread, imsave
 import numpy as np
 
 from deepfigures.extraction import (

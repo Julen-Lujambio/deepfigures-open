@@ -2,6 +2,7 @@ import os
 import typing
 import numpy as np
 from scipy import misc
+from imageio import imread
 from deepfigures.utils import file_util
 import logging
 
@@ -21,7 +22,7 @@ def read_tensor(path: str, maxsize: int=None) -> typing.Optional[np.ndarray]:
     (_, ext) = os.path.splitext(path)
     ext = ext.lower()
     if ext in {'.png', '.jpg', '.jpeg'}:
-        res = misc.imread(path, mode='RGB')
+        res = imread(path, as_gray=False, pilmode="RGB")
         assert len(res.shape) == 3
         assert res.shape[2] == 3
         return res
