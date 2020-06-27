@@ -116,7 +116,7 @@ You'll see something like:
 
     Commands:
       build           Build docker images for deepfigures.
-      detectfigures   Run figure extraction on the PDF at PDF_PATH.
+      detectfigures   Run figure extraction on the PDF at PDF_PATH. (detectfigures /Path/to/output /Path/to/PDF)
       generatearxiv   Generate arxiv data for deepfigures.
       generatepubmed  Generate pubmed data for deepfigures.
       testunits       Run unit tests for deepfigures.
