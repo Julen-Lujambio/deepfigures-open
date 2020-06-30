@@ -50,7 +50,13 @@ PDFFIGURES_JAR_PATH = os.path.join(
 # PDF Rendering backend settings
 DEEPFIGURES_PDF_RENDERER = 'deepfigures.extraction.renderers.GhostScriptRenderer'
 
+# S3 Bucket that output directory for processed pdfs to syncs with
+S3_Bucket = 'testbucket101234'
 
+# the local directory that S3 syncs with
+Local_Output = '/mnt/c/Users/soyju/surf_freshman/output2'
+Deepfigures_Path = '/mnt/c/Users/soyju/surf_freshman/deepfigures_open'
+Input_PDF_dir = ''
 # settings for data generation
 
 # The location to temporarily store arxiv source data

@@ -12,9 +12,12 @@ import sys
 
 import click
 
+sys.path.append('/mnt/c/Users/soyju/SURF_FRESHMAN/deepfigures_open')
 from scripts import (
     build,
     detectfigures,
+    boundbox_overlay,
+    bulk_detectfigures,
     generatearxiv,
     generatepubmed,
     testunits)
@@ -57,6 +60,8 @@ def manage(verbose, log_file):
 subcommands = [
     build.build,
     detectfigures.detectfigures,
+    boundbox_overlay.boundbox_overlay,
+    bulk_detectfigures.bulk_detectfigures,
     generatearxiv.generatearxiv,
     generatepubmed.generatepubmed,
     testunits.testunits

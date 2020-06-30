@@ -21,7 +21,6 @@ from deepfigures.utils import (
     misc,
     settings_utils)
 
-
 class FigureExtraction(object):
     """A class representing the data extracted from a PDF.
 
@@ -168,5 +167,4 @@ class FigureExtractionPipeline(object):
                 page_image_paths=figure_extraction.low_res_rendering_paths,
                 pdffigures_output=figure_extraction.pdffigures_output_path,
                 output_directory=figure_extraction.paths['BASE'])
-
         return figure_extraction
