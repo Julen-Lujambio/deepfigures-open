@@ -64,13 +64,20 @@ def depict_boxes(dir, dpi, images, boxes, Error_Margin, thick = 3):
 
     for page_num in range(PAGE_NUM):
         image_new = images[page_num]
+        cropped = image_new
         if len(boxes[page_num]) > 0:                  # Some figures detected
             for box_num in range(len(boxes[page_num])):
                 box_idx = boxes[page_num][box_num]
                 box = [(int(box_idx["y1"]) - Error_Margin), (int(box_idx["x1"]) - Error_Margin),
                        (int(box_idx["y2"]) + Error_Margin), (int(box_idx["x2"]) + Error_Margin)]                          # Get box boundary coordinates
-                image_new = visualize_box(box = box, image = image_new)                # Depict bounding boxes
-        io.imsave(os.path.join(SAVE_PATH,"Page"+str(page_num)+".png"), image_new)      # Save images
+                image_new = visualize_box(box = box, image = image_new) 
+                cropped = image_new[box[0]:box[2], box[1]:box[3]]                      # Extract the cropped image of the figure
+        # Save the images
+        # Pages that do not have figures are saved just as normal 
+        if np.array_equal(image_new, cropped):                                       # If the images are the same, save as normal
+            io.imsave(os.path.join(SAVE_PATH, "Page" + str(page_num) + ".png"), image_new) 
+        else:                                                                          # Else saved the cropped one
+            io.imsave(os.path.join(SAVE_PATH,"CroppedPage" + str(page_num) + ".png"), cropped)  # Depict bounding boxes
 
 @click.command(
     context_settings={
