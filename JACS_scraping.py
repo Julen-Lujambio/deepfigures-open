@@ -9,7 +9,7 @@ import pandas as pd
 VERBOSE = True                  # If True, the outputs of each block will be printed
 OUTPUT_DIRECTORY = "storage/input/JACS"       # The directory to store pdf downloaded
 STARTING_PAGE = 0
-ENDING_PAGE = 5                    # Number of result pages to be scaped.
+ENDING_PAGE = 2555                    # Number of result pages to be scaped.
 SAVING_INFO_FREQ = 1            # Save updated info table every N result pages 
 os.makedirs(OUTPUT_DIRECTORY, exist_ok=True)
 if not os.path.exists(os.path.join(OUTPUT_DIRECTORY,"Info.csv")):
