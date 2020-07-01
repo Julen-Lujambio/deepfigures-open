@@ -54,8 +54,8 @@ DEEPFIGURES_PDF_RENDERER = 'deepfigures.extraction.renderers.GhostScriptRenderer
 S3_Bucket = 'testbucket101234'
 
 # the local directory that S3 syncs with
-Local_Output = '/mnt/c/Users/soyju/surf_freshman/output2'
-Deepfigures_Path = '/mnt/c/Users/soyju/surf_freshman/deepfigures_open'
+Local_Output = ''
+Deepfigures_Path = ''
 Input_PDF_dir = ''
 # settings for data generation
 

@@ -147,12 +147,12 @@ class FigureExtractionPipeline(object):
                 output_dir=figure_extraction.paths['BASE'],
                 dpi=settings.DEFAULT_INFERENCE_DPI)
 
-        # render the PDF into hi-res images
-        figure_extraction.hi_res_rendering_paths = \
-            pdf_renderer.render(
-                pdf_path=figure_extraction.paths['PDF_PATH'],
-                output_dir=figure_extraction.paths['BASE'],
-                dpi=settings.DEFAULT_CROPPED_IMG_DPI)
+        # # render the PDF into hi-res images
+        # figure_extraction.hi_res_rendering_paths = \
+        #     pdf_renderer.render(
+        #         pdf_path=figure_extraction.paths['PDF_PATH'],
+        #         output_dir=figure_extraction.paths['BASE'],
+        #         dpi=settings.DEFAULT_CROPPED_IMG_DPI)
 
         # extract captions from PDF using pdffigures2
         figure_extraction.pdffigures_output_path = \

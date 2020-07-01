@@ -64,4 +64,5 @@ sudo rm -rf pdffigures2
 cd ../../
 sudo mv git home/ec2-user
 cd home/ec2-user
+
 sudo touch DONE.txt
