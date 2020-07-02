@@ -70,8 +70,8 @@ def depict_boxes(dir, dpi, images, boxes, Error_Margin, thick = 3):
                 # Reset cropped each time so we start fresh with the full page
                 cropped = image_new
                 box_idx = boxes[page_num][box_num]
-                box = [int(box_idx["y1"]) - ERROR_MARGIN, int(box_idx["x1"]) - ERROR_MARGIN,
-                       int(box_idx["y2"]) + ERROR_MARGIN, int(box_idx["x2"]) + ERROR_MARGIN]                          # Get box boundary coordinates
+                box = [int(box_idx["y1"]) - Error_Margin, int(box_idx["x1"]) - Error_Margin,
+                       int(box_idx["y2"]) + Error_Margin, int(box_idx["x2"]) + Error_Margin]                          # Get box boundary coordinates
                 image_new = visualize_box(box = box, image = image_new) 
                 cropped = image_new[box[0]:box[2], box[1]:box[3]] 
                 # We are going to save each image on every page
