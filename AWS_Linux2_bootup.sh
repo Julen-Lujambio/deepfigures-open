@@ -35,6 +35,9 @@ sudo curl -O https://bootstrap.pypa.io/get-pip.py
 sudo python3.7 get-pip.py --user
 # install click module that is needed for manage.py in deepfigures
 sudo python3.7 -m pip install click
+sudo python3.7 -m pip install scikit-image
+sudo pip3 install scikit-image
+sudo pip3 install click
 # install docker -- vm that runs nueral network to extract figures
 sudo amazon-linux-extras install docker -y
 service docker start

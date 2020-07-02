@@ -34,7 +34,10 @@ sudo yum install sbt -y
 curl -O https://bootstrap.pypa.io/get-pip.py
 python3.7 get-pip.py --user
 # install click module that is needed for manage.py in deepfigures
-python3.7 -m pip install click  -y
+python3.7 -m pip install click
+python3.7 -m pip install scikit-image
+pip3 install scikit-image
+pip3 install click
 # install docker -- vm that runs nueral network to extract figures
 amazon-linux-extras install docker -y
 service docker start
