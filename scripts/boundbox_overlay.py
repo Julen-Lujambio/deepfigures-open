@@ -60,7 +60,12 @@ def depict_boxes(dir, dpi, images, boxes, Error_Margin, thick = 3):
     """
     SAVE_PATH = os.path.join(dir,"images_with_boxes_dpi_"+str(dpi))  # Directory to save the images with boxes
     PAGE_NUM = len(images)                                      # Total number of pdf pages
-    os.makedirs(SAVE_PATH, exist_ok=True)
+
+    try:
+        os.makedirs(SAVE_PATH)
+    except OSError: # stops if pdf has been processed already
+        print("Figures have already been extracted")
+        return 
 
     for page_num in range(PAGE_NUM):
         image_new = images[page_num]
@@ -99,7 +104,7 @@ def boundbox_overlay(pdf_directory, error_margin):
     'Draws bounding boxes over figures in pdfs in output directory'
     # Loop through all directories
     for dir in dirs:
-        dir = os.path.join(settings.Local_Output, dir) # Adding path to dir
+        dir = os.path.join(os.getcwd(), pdf_directory, dir) # Adding path to dir
         pdf_name = next(x for x in os.listdir(dir) if x[-4:]==".pdf").replace(".pdf", "").strip(" ")  # Get pdf name by removing extra white space and .pdf
         with open(os.path.join(dir,pdf_name+"deepfigures-results.json")) as f:       # Load JSON file containing bounding
             output = json.load(f)
@@ -113,6 +118,7 @@ def boundbox_overlay(pdf_directory, error_margin):
         for name in image_names:
             images.append(np.array(io.imread(os.path.join(IMAGE_PATH, name))))  # Get images as numpy arrays
             depict_boxes(dir=dir, dpi=DPI, images=images, boxes=boxes, Error_Margin=error_margin)
+    print("Done extracting figures!")
 
 if __name__ == '__main__':
     boundbox_overlay()
