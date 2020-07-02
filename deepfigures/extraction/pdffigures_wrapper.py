@@ -38,7 +38,7 @@ class PDFFiguresExtractor(object):
             settings.PDFFIGURES_JAR_PATH)
 
         if not os.path.exists(success_file_path) or not use_cache:
-            subprocess.check_call(
+            subprocess.call( # ignore errors
                 'java'
                 ' -jar {pdffigures_jar_path}'
                 ' --figure-data-prefix {pdffigures_dir}'
