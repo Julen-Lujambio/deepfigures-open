@@ -100,8 +100,9 @@ def boundbox_overlay(pdf_directory, error_margin):
     # Loop through all directories
     for dir in dirs:
         dir = os.path.join(settings.Local_Output, dir) # Adding path to dir
+        # Get pdf name by removing extra white space and .pdf
         pdf_name = next(x for x in os.listdir(dir) if x[-4:]==".pdf").replace(".pdf", "").strip(" ")  # Get pdf name by removing extra white space and .pdf
-        with open(os.path.join(dir,pdf_name+"deepfigures-results.json")) as f:       # Load JSON file containing bounding
+        with open(os.path.join(dir, pdf_name + "deepfigures-results.json")) as f:       # Load JSON file containing bounding
             output = json.load(f)
         boxes = output["raw_detected_boxes"]      # Get bounding boxes for all pages
 
