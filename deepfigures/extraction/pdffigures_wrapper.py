@@ -40,7 +40,7 @@ class PDFFiguresExtractor(object):
 
         if not os.path.exists(success_file_path) or not use_cache:
             try:
-                subprocess.check_call( # ignore errors
+                subprocess.check_call(
                     'java'
                     ' -jar {pdffigures_jar_path}'
                     ' --figure-data-prefix {pdffigures_dir}'
@@ -51,8 +51,10 @@ class PDFFiguresExtractor(object):
                         pdffigures_dir=pdffigures_dir),
                     shell=True)
             except subprocess.CalledProcessError:
+                # Writes an error file to indicate that a problem occured
                 with open(error_file_path, 'w') as f_out:
                     f_out.write('')
+                # return nothing
                 return
 
             # add a success file to verify that the operation completed
