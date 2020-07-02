@@ -135,7 +135,7 @@ class FigureExtractionPipeline(object):
         try:
             os.makedirs(figure_extraction.paths['BASE'])
         except OSError: #stops if pdf has been processed already
-            break
+            return figure_extraction
         # copy the PDF into the extraction results directory
         shutil.copy(pdf_path, figure_extraction.paths['PDF_PATH'])
 
