@@ -59,15 +59,15 @@ def depict_boxes(dir, dpi, images, boxes, Error_Margin, thick = 3):
             Void
     """
     SAVE_PATH = os.path.join(dir,"images_with_boxes_dpi_"+ str(dpi))  # Directory to save the images with boxes
-    PAGE_NUM = len(images)                                      # Total number of pdf pages
+    IMAGE_NUM = len(images)                                      # Total number of pdf pages
 
     try:
         os.makedirs(SAVE_PATH)
     except OSError: # stops if figures have already been extracted
-        if len(os.listdir(SAVE_PATH)) > PAGE_NUM:
+        if len(os.listdir(SAVE_PATH)) > IMAGE_NUM:
             return 
 
-    for page_num in range(PAGE_NUM):
+    for page_num in range(IMAGE_NUM):
         image_new = images[page_num]
         num_images = len(boxes[page_num])
         if  num_images > 0:  
