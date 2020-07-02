@@ -33,21 +33,27 @@ class PDFFiguresExtractor(object):
             os.makedirs(pdffigures_dir)
 
         success_file_path = os.path.join(pdffigures_dir, '_SUCCESS')
+        error_file_path = os.path.join(pdffigures_dir, '_ERROR')
 
         pdffigures_jar_path = file_util.cache_file(
             settings.PDFFIGURES_JAR_PATH)
 
         if not os.path.exists(success_file_path) or not use_cache:
-            subprocess.call( # ignore errors
-                'java'
-                ' -jar {pdffigures_jar_path}'
-                ' --figure-data-prefix {pdffigures_dir}'
-                ' --save-regionless-captions'
-                ' {pdf_path}'.format(
-                    pdffigures_jar_path=pdffigures_jar_path,
-                    pdf_path=pdf_path,
-                    pdffigures_dir=pdffigures_dir),
-                shell=True)
+            try:
+                subprocess.check_call( # ignore errors
+                    'java'
+                    ' -jar {pdffigures_jar_path}'
+                    ' --figure-data-prefix {pdffigures_dir}'
+                    ' --save-regionless-captions'
+                    ' {pdf_path}'.format(
+                        pdffigures_jar_path=pdffigures_jar_path,
+                        pdf_path=pdf_path,
+                        pdffigures_dir=pdffigures_dir),
+                    shell=True)
+            except subprocess.CalledProcessError:
+                with open(error_file_path, 'w') as f_out:
+                    f_out.write('')
+                return
 
             # add a success file to verify that the operation completed
             with open(success_file_path, 'w') as f_out:
