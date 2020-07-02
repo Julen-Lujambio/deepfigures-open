@@ -60,6 +60,11 @@ sudo mv target/scala-2.12/pdffigures2-assembly-0.1.0.jar ../bin
 cd ..
 sudo rm -rf pdffigures2
 
+# Install modules for web scrapper
+sudo pip3 install pandas
+sudo pip3 install requests
+sudo pip3 install bs4
+
 # SET UP is complete now and deepfigure should run -----------------------------
 cd ../../
 sudo mv git home/ec2-user

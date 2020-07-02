@@ -7,7 +7,7 @@ import pandas as pd
 
 # Configuaion
 VERBOSE = True                  # If True, the outputs of each block will be printed
-OUTPUT_DIRECTORY = "storage/input/JACS"       # The directory to store pdf downloaded
+OUTPUT_DIRECTORY = "JACS"       # The directory to store pdf downloaded
 STARTING_PAGE = 0
 ENDING_PAGE = 2555                    # Number of result pages to be scaped.
 SAVING_INFO_FREQ = 1            # Save updated info table every N result pages 
