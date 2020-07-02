@@ -110,7 +110,7 @@ def boundbox_overlay(pdf_directory, error_margin):
             output = json.load(f)
         boxes = output["raw_detected_boxes"]      # Get bounding boxes for all pages
 
-        IMAGE_PATH = os.path.join(dir,pdf_name+".pdf-images","ghostscript","dpi"+str(DPI))
+        IMAGE_PATH = os.path.join(dir,pdf_name + ".pdf-images", "ghostscript", "dpi" + str(DPI))
         image_names = sorted(os.listdir(IMAGE_PATH))
         image_names.remove("_SUCCESS")                 # Get image names for all pages
         images = []
