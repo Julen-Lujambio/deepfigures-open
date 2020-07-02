@@ -63,8 +63,7 @@ def depict_boxes(dir, dpi, images, boxes, Error_Margin, thick = 3):
 
     try:
         os.makedirs(SAVE_PATH)
-    except OSError: # stops if pdf has been processed already
-        print("Figures have already been extracted")
+    except OSError: # stops if figures have already been extracted
         return 
 
     for page_num in range(PAGE_NUM):
