@@ -6,6 +6,7 @@ from typing import List, Tuple, Iterable
 
 import cv2  # Need to import OpenCV before tensorflow to avoid import error
 from scipy.misc import imread, imsave
+from skimage.color import rgb2gray
 import numpy as np
 
 from deepfigures.extraction import (
@@ -56,15 +57,20 @@ def extract_figures_json(
 
     :returns: path to the JSON file containing the detection results.
     """
-    page_images_array = np.array(imread(page_image_path) for page_image_path in page_image_paths)
-    if (np.ndim(page_images_array) != 3): 
-        dim = np.ndim(page_images_array)
+    try:
+        page_images_array = np.array([
+            imread(page_image_path)
+            for page_image_path in page_image_paths
+        ])
+    except ValueError:
+        # Writes .json file with ValueError message
+        # This prevents for loop from being broken 
         output_path = os.path.join(
             output_directory,
-            os.path.basename(pdf_path)[:-4] + 'nparray_dim_{dim}.json')
+            os.path.basename(pdf_path)[:-4] + 'nparray_ValueError.json')
         file_util.write_json_atomic(
             output_path,
-            "incorrect size",
+            "incorrect size, shapes didn't match",
             indent=2,
             sort_keys=True)
         return output_path
