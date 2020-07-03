@@ -92,19 +92,24 @@ def regionless_to_caption(regionless: dict) -> datamodels.CaptionOnly:
 
 
 def get_captions(
-    pdffigures_output: dict, target_dpi: int=settings.DEFAULT_INFERENCE_DPI
-) -> List[datamodels.CaptionOnly]:
-    figures = pdffigures_output.get('figures', [])
-    regionless_captions = pdffigures_output.get('regionless-captions', [])
-    captions = (
-        [figure_to_caption(fig) for fig in figures] +
-        [regionless_to_caption(reg) for reg in regionless_captions]
-    )
-    for caption in captions:
-        caption.caption_boundary = caption.caption_boundary.rescale(
-            target_dpi / PDFFIGURES_DPI
+        pdffigures_output: dict, target_dpi: int=settings.DEFAULT_INFERENCE_DPI
+    ) -> List[datamodels.CaptionOnly]:
+    try:
+        figures = pdffigures_output.get('figures', [])
+        regionless_captions = pdffigures_output.get('regionless-captions', [])
+        captions = (
+            [figure_to_caption(fig) for fig in figures] +
+            [regionless_to_caption(reg) for reg in regionless_captions]
         )
-    return captions
+        for caption in captions:
+            caption.caption_boundary = caption.caption_boundary.rescale(
+                target_dpi / PDFFIGURES_DPI
+            )
+        return captions
+    except AttributeError:
+        return 
+
+    
 
 
 def get_figures(pdffigures_output: dict, target_dpi: int=settings.DEFAULT_INFERENCE_DPI
