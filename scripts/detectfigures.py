@@ -76,7 +76,7 @@ def detectfigures(
             internal_pdf_directory=internal_pdf_directory,
             internal_pdf_path=internal_pdf_path),
         logger,
-        raise_error=False)
+        raise_error=True)
 
 
 if __name__ == '__main__':
