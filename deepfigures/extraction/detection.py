@@ -56,10 +56,19 @@ def extract_figures_json(
 
     :returns: path to the JSON file containing the detection results.
     """
-    page_images_array = np.array([
-        imread(page_image_path)
-        for page_image_path in page_image_paths
-    ])
+    page_images_array = np.array(imread(page_image_path) for page_image_path in page_image_paths)
+    if (np.ndim(page_images_array) != 3): 
+        dim = np.ndim(page_images_array)
+        output_path = os.path.join(
+            output_directory,
+            os.path.basename(pdf_path)[:-4] + 'nparray_dim_{dim}.json')
+        file_util.write_json_atomic(
+            output_path,
+            "incorrect size",
+            indent=2,
+            sort_keys=True)
+        return output_path
+
     detector = get_detector()
     figure_boxes_by_page = detector.get_detections(
         page_images_array)
