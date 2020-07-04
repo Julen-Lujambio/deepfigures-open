@@ -81,14 +81,28 @@ def extract_figures_json(
     pdffigures_captions = pdffigures_wrapper.get_captions(
         pdffigures_output=pdffigures_output,
         target_dpi=settings.DEFAULT_INFERENCE_DPI)
+     
     figures_by_page = []
     for page_num in range(len(page_image_paths)):
         figure_boxes = figure_boxes_by_page[page_num]
-        pf_page_captions = [
-            caption
-            for caption in pdffigures_captions
-            if caption.page == page_num
-        ]
+        try:
+            pf_page_captions = [
+                caption
+                for caption in pdffigures_captions
+                if caption.page == page_num
+            ]
+        except TypeError:
+            # Writes .json file with ValueError message
+            # This prevents for loop from being broken 
+            output_path = os.path.join(
+                output_directory,
+                os.path.basename(pdf_path)[:-4] + 'nparray_TypeError.json')
+            file_util.write_json_atomic(
+                output_path,
+                "Caused most likely by try/except in get_captions",
+                indent=2,
+                sort_keys=True)
+            return output_path
         caption_boxes = [
             caption.caption_boundary
             for caption in pf_page_captions
