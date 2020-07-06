@@ -58,8 +58,9 @@ def depict_boxes(dir, dpi, images, boxes, Error_Margin, thick = 3):
         @RETURN:
             Void
     """
-    SAVE_PATH = os.path.join(dir,"images_with_boxes_dpi_"+ str(dpi))  # Directory to save the images with boxes
-    IMAGE_NUM = len(images)                                      # Total number of pdf pages
+    SAVE_PATH = os.path.join(dir,"images_with_boxes_dpi_" + str(dpi))  # Directory to save the images with boxes
+    IMAGE_NUM = len(images)
+    PDF_NAME = next(x for x in os.listdir(dir) if x[-4:] == ".pdf").replace(".pdf", "").strip(" ")                                      # Total number of pdf pages
 
     try:
         os.makedirs(SAVE_PATH)
@@ -80,7 +81,7 @@ def depict_boxes(dir, dpi, images, boxes, Error_Margin, thick = 3):
                 image_new = visualize_box(box = box, image = image_new) 
                 cropped = image_new[box[0]:box[2], box[1]:box[3]] 
                 # We are going to save each image on every page
-                io.imsave(os.path.join(SAVE_PATH, "CroppedPage" + str(page_num + 1) + '-' + str(box_num + 1) + ".png"), cropped)  # Depict bounding boxes
+                io.imsave(os.path.join(SAVE_PATH, PDF_NAME + "CroppedPage" + str(page_num + 1) + '-' + str(box_num + 1) + ".png"), cropped)  # Depict bounding boxes
 
 @click.command(
     context_settings={
@@ -105,12 +106,12 @@ def boundbox_overlay(pdf_directory, error_margin):
     # Loop through all directories
     for dir in dirs:
         dir = os.path.join(os.getcwd(), pdf_directory, dir) # Adding path to dir
-        pdf_name = next(x for x in os.listdir(dir) if x[-4:]==".pdf").replace(".pdf", "").strip(" ")  # Get pdf name by removing extra white space and .pdf
-        with open(os.path.join(dir,pdf_name+"deepfigures-results.json")) as f:       # Load JSON file containing bounding
+        pdf_name = next(x for x in os.listdir(dir) if x[-4:] == ".pdf").replace(".pdf", "").strip(" ")  # Get pdf name by removing extra white space and .pdf
+        with open(os.path.join(dir, pdf_name + "deepfigures-results.json")) as f:       # Load JSON file containing bounding
             output = json.load(f)
         boxes = output["raw_detected_boxes"]      # Get bounding boxes for all pages
 
-        IMAGE_PATH = os.path.join(dir,pdf_name + ".pdf-images", "ghostscript", "dpi" + str(DPI))
+        IMAGE_PATH = os.path.join(dir, pdf_name + ".pdf-images", "ghostscript", "dpi" + str(DPI))
         image_names = sorted(os.listdir(IMAGE_PATH))
         image_names.remove("_SUCCESS")                 # Get image names for all pages
         images = []
