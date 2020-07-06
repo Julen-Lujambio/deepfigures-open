@@ -33,21 +33,29 @@ class PDFFiguresExtractor(object):
             os.makedirs(pdffigures_dir)
 
         success_file_path = os.path.join(pdffigures_dir, '_SUCCESS')
+        error_file_path = os.path.join(pdffigures_dir, '_ERROR')
 
         pdffigures_jar_path = file_util.cache_file(
             settings.PDFFIGURES_JAR_PATH)
 
         if not os.path.exists(success_file_path) or not use_cache:
-            subprocess.check_call(
-                'java'
-                ' -jar {pdffigures_jar_path}'
-                ' --figure-data-prefix {pdffigures_dir}'
-                ' --save-regionless-captions'
-                ' {pdf_path}'.format(
-                    pdffigures_jar_path=pdffigures_jar_path,
-                    pdf_path=pdf_path,
-                    pdffigures_dir=pdffigures_dir),
-                shell=True)
+            try:
+                subprocess.check_call(
+                    'java'
+                    ' -jar {pdffigures_jar_path}'
+                    ' --figure-data-prefix {pdffigures_dir}'
+                    ' --save-regionless-captions'
+                    ' {pdf_path}'.format(
+                        pdffigures_jar_path=pdffigures_jar_path,
+                        pdf_path=pdf_path,
+                        pdffigures_dir=pdffigures_dir),
+                    shell=True)
+            except subprocess.CalledProcessError:
+                # Writes an error file to indicate that a problem occured
+                with open(error_file_path, 'w') as f_out:
+                    f_out.write('')
+                # return nothing
+                return
 
             # add a success file to verify that the operation completed
             with open(success_file_path, 'w') as f_out:
@@ -84,19 +92,24 @@ def regionless_to_caption(regionless: dict) -> datamodels.CaptionOnly:
 
 
 def get_captions(
-    pdffigures_output: dict, target_dpi: int=settings.DEFAULT_INFERENCE_DPI
-) -> List[datamodels.CaptionOnly]:
-    figures = pdffigures_output.get('figures', [])
-    regionless_captions = pdffigures_output.get('regionless-captions', [])
-    captions = (
-        [figure_to_caption(fig) for fig in figures] +
-        [regionless_to_caption(reg) for reg in regionless_captions]
-    )
-    for caption in captions:
-        caption.caption_boundary = caption.caption_boundary.rescale(
-            target_dpi / PDFFIGURES_DPI
+        pdffigures_output: dict, target_dpi: int=settings.DEFAULT_INFERENCE_DPI
+    ) -> List[datamodels.CaptionOnly]:
+    try:
+        figures = pdffigures_output.get('figures', [])
+        regionless_captions = pdffigures_output.get('regionless-captions', [])
+        captions = (
+            [figure_to_caption(fig) for fig in figures] +
+            [regionless_to_caption(reg) for reg in regionless_captions]
         )
-    return captions
+        for caption in captions:
+            caption.caption_boundary = caption.caption_boundary.rescale(
+                target_dpi / PDFFIGURES_DPI
+            )
+        return captions
+    except AttributeError:
+        return 
+
+    
 
 
 def get_figures(pdffigures_output: dict, target_dpi: int=settings.DEFAULT_INFERENCE_DPI

@@ -81,7 +81,7 @@ def depict_boxes(dir, dpi, images, boxes, Error_Margin, thick = 3):
                 image_new = visualize_box(box = box, image = image_new) 
                 cropped = image_new[box[0]:box[2], box[1]:box[3]] 
                 # We are going to save each image on every page
-                io.imsave(os.path.join(SAVE_PATH, PDF_NAME + "CroppedPage" + str(page_num + 1) + '-' + str(box_num + 1) + ".png"), cropped)  # Depict bounding boxes
+                io.imsave(os.path.join(SAVE_PATH, PDF_NAME + "Page" + str(page_num + 1) + '-' + str(box_num + 1) + ".png"), cropped)  # Depict bounding boxes
 
 @click.command(
     context_settings={
