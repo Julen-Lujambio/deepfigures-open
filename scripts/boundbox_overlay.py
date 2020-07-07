@@ -108,13 +108,15 @@ def boundbox_overlay(pdf_directory, error_margin):
     Processed_Images = 0
     try:
         # Remove done file if from a previous run
-        os.remove(os.path.join(os.getcwd(), "/../../", "Done.txt"))
+        os.remove(os.path.join(os.getcwd(), pdf_directory, "Done_Extracting_Figures.txt"))
     except FileNotFoundError:
         pass
     # Loop through all directories
     for dir in dirs:
+        dir = os.path.join(os.getcwd(), pdf_directory, dir) # Adding path to dir
+        if (not os.path.isdir(dir)):
+            continue # Then skip
         try:
-            dir = os.path.join(os.getcwd(), pdf_directory, dir) # Adding path to dir
             pdf_name = next(x for x in os.listdir(dir) if x[-4:] == ".pdf").replace(".pdf", "").strip(" ")  # Get pdf name by removing extra white space and .pdf
             if (os.path.exists(dir + "/Image_Extracted.txt")):
                 print("Skipping processed file")
@@ -147,7 +149,7 @@ def boundbox_overlay(pdf_directory, error_margin):
         except NotADirectoryError:
             continue
     # Create done file to indicate the boundbox finished
-    f = open("Done.txt", 'w+')
+    f = open(os.path.join(os.getcwd(), pdf_directory, "Done_Extracting_Figures.txt"), 'a+')
     f.close()
     print("Done extracting figures!")
 
