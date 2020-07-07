@@ -103,22 +103,52 @@ def depict_boxes(dir, dpi, images, boxes, Error_Margin, thick = 3):
 def boundbox_overlay(pdf_directory, error_margin):
     dirs = os.listdir(pdf_directory)
     'Draws bounding boxes over figures in pdfs in output directory'
+    Failed_Files = 0
+    Processed_Files = 0
+    Processed_Images = 0
+    try:
+        # Remove done file if from a previous run
+        os.remove(os.path.join(os.getcwd(), "/../../", "Done.txt"))
+    except FileNotFoundError:
+        pass
     # Loop through all directories
     for dir in dirs:
-        dir = os.path.join(os.getcwd(), pdf_directory, dir) # Adding path to dir
-        pdf_name = next(x for x in os.listdir(dir) if x[-4:] == ".pdf").replace(".pdf", "").strip(" ")  # Get pdf name by removing extra white space and .pdf
-        with open(os.path.join(dir, pdf_name + "deepfigures-results.json")) as f:       # Load JSON file containing bounding
-            output = json.load(f)
-        boxes = output["raw_detected_boxes"]      # Get bounding boxes for all pages
+        try:
+            dir = os.path.join(os.getcwd(), pdf_directory, dir) # Adding path to dir
+            pdf_name = next(x for x in os.listdir(dir) if x[-4:] == ".pdf").replace(".pdf", "").strip(" ")  # Get pdf name by removing extra white space and .pdf
+            if (os.path.exists(dir + "/Image_Extracted.txt")):
+                print("Skipping processed file")
+                continue # Skip if already processed
+            with open(os.path.join(dir, pdf_name + "deepfigures-results.json")) as f:       # Load JSON file containing bounding
+                output = json.load(f)
+            boxes = output["raw_detected_boxes"]      # Get bounding boxes for all pages
 
-        IMAGE_PATH = os.path.join(dir, pdf_name + ".pdf-images", "ghostscript", "dpi" + str(DPI))
-        image_names = sorted(os.listdir(IMAGE_PATH))
-        image_names.remove("_SUCCESS")                 # Get image names for all pages
-        images = []
+            IMAGE_PATH = os.path.join(dir, pdf_name + ".pdf-images", "ghostscript", "dpi" + str(DPI))
+            image_names = sorted(os.listdir(IMAGE_PATH))
+            image_names.remove("_SUCCESS")                 # Get image names for all pages
+            images = []
 
-        for name in image_names:
-            images.append(np.array(io.imread(os.path.join(IMAGE_PATH, name))))  # Get images as numpy arrays
-            depict_boxes(dir=dir, dpi=DPI, images=images, boxes=boxes, Error_Margin=error_margin)
+            for name in image_names:
+                images.append(np.array(io.imread(os.path.join(IMAGE_PATH, name))))  # Get images as numpy arrays
+                depict_boxes(dir=dir, dpi=DPI, images=images, boxes=boxes, Error_Margin=error_margin)    
+                Processed_Images += 1
+            Processed_Files += 1
+            # File that contains the number of processed files
+            with open(os.path.join(os.getcwd(), pdf_directory, "Processed_Files.txt"), 'a+') as f:
+                f.write("File Success #:" + str(Processed_Files) + ', File name:' + pdf_name + ', Number of images:' + str(Processed_Images) + "\n")
+            open(os.path.join(dir, "Image_Extracted.txt"), "w+")
+        except FileNotFoundError:
+            Failed_Files += 1 # Add 1 to Failed file count
+            print("Skipped file because it had issues will processing in deepfigures.")
+            with open(os.path.join(os.getcwd(), pdf_directory, "Failed_Files.txt"), 'a+') as f:
+                f.write("File Failed #:" + str(Failed_Files) + ", File name:" + pdf_name + "\n")
+            open(os.path.join(dir, "Image_Extracted.txt"), "w+")
+            continue
+        except NotADirectoryError:
+            continue
+    # Create done file to indicate the boundbox finished
+    f = open("Done.txt", 'w+')
+    f.close()
     print("Done extracting figures!")
 
 if __name__ == '__main__':
