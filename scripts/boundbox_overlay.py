@@ -102,8 +102,9 @@ def depict_boxes(dir, dpi, images, boxes, Error_Margin, thick = 3):
 
 def boundbox_overlay(pdf_directory, error_margin):
     'Draws bounding boxes over figures in pdfs in output directory'
-    
+
     dirs = os.listdir(pdf_directory)
+
     Failed_Files = 0
     Processed_Files = 0
     Processed_Images = 0
@@ -122,6 +123,7 @@ def boundbox_overlay(pdf_directory, error_margin):
             if (os.path.exists(dir + "/Image_Extracted.txt")):
                 print("Skipping processed file")
                 continue # Skip if already processed
+            print('processing file')
             with open(os.path.join(dir, pdf_name + "deepfigures-results.json")) as f:       # Load JSON file containing bounding
                 output = json.load(f)
             boxes = output["raw_detected_boxes"]      # Get bounding boxes for all pages
