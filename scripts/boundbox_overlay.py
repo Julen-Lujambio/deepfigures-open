@@ -101,8 +101,9 @@ def depict_boxes(dir, dpi, images, boxes, Error_Margin, thick = 3):
         resolve_path=True))
 
 def boundbox_overlay(pdf_directory, error_margin):
-    dirs = os.listdir(pdf_directory)
     'Draws bounding boxes over figures in pdfs in output directory'
+    
+    dirs = os.listdir(pdf_directory)
     Failed_Files = 0
     Processed_Files = 0
     Processed_Images = 0

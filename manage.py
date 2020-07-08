@@ -20,6 +20,7 @@ from scripts import (
     bulk_detectfigures,
     generatearxiv,
     generatepubmed,
+    dir_rename,
     testunits)
 
 
@@ -61,10 +62,12 @@ subcommands = [
     build.build,
     detectfigures.detectfigures,
     boundbox_overlay.boundbox_overlay,
+    dir_rename.dir_rename,
     bulk_detectfigures.bulk_detectfigures,
     generatearxiv.generatearxiv,
     generatepubmed.generatepubmed,
     testunits.testunits
+    
 ]
 
 for subcommand in subcommands:
