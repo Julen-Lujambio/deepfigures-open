@@ -151,6 +151,13 @@ def boundbox_overlay(pdf_directory, error_margin):
             continue
         except NotADirectoryError:
             continue
+        except IndexError:
+            Failed_Files += 1 # Add 1 to Failed file count
+            print("Skipped file because it had an index error.")
+            with open(os.path.join(os.getcwd(), pdf_directory, "Failed_Files.txt"), 'a+') as f:
+                f.write("File Failed #:" + str(Failed_Files) + ", File name:" + pdf_name + "Index Error" + "\n")
+            open(os.path.join(dir, "Image_Extracted.txt"), "w+")
+            continue
     # Create done file to indicate the boundbox finished
     f = open(os.path.join(os.getcwd(), pdf_directory, "Done_Extracting_Figures.txt"), 'a+')
     f.close()
