@@ -91,45 +91,6 @@ def depict_boxes(dir, dpi, images, boxes, Error_Margin, thick = 3):
                     # We are going to save each image on every page
                     io.imsave(os.path.join(SAVE_PATH, PDF_NAME + "Page" + str(page_num + 1) + '-' + str(box_num + 1) + ".png"), cropped)  # Depict bounding boxes
 
-
-def depict_boxes_index_error(dir, dpi, images, boxes, Error_Margin, thick = 3):
-    """
-    Drawing the rectangular bounding boxes on the images of pdf pages
-        @PARAM:
-            dir: the directory where pdf is saved
-            dpi: the dpi in the setting
-            images: list of numpy arrays, the filenames of the images of the pdf pages, in PNG
-            boxes: list of dictionaries, the coordinates of bounding boxes
-            thick: int, the thickness of the bounding boxes depicted, DEFAULT = 3 pixels
-        @RETURN:
-            Void
-    """
-    SAVE_PATH = os.path.join(dir,"images_with_boxes_dpi_" + str(dpi))  # Directory to save the images with boxes
-    IMAGE_NUM = len(images)
-    PDF_NAME = next(x for x in os.listdir(dir) if x[-4:] == ".pdf").replace(".pdf", "").strip(" ")                                      # Total number of pdf pages
-
-    try:
-        os.makedirs(SAVE_PATH)
-    except OSError: # stops if figures have already been extracted
-        if len(os.listdir(SAVE_PATH)) > IMAGE_NUM:
-            return 
-
-    for page_num in range(IMAGE_NUM):
-        image_new = images[page_num]
-        num_images = len(boxes[page_num])
-        if  num_images > 0:  
-            for box_num in range(num_images):
-                # Reset cropped each time so we start fresh with the full page
-                cropped = image_new
-                box_idx = boxes[page_num][box_num]
-                box = [int(box_idx["y1"]), int(box_idx["x1"]),
-                       int(box_idx["y2"]), int(box_idx["x2"])]                          # Get box boundary coordinates
-                image_new = visualize_box(box = box, image = image_new) 
-                cropped = image_new[box[0]:box[2], box[1]:box[3]] 
-                # We are going to save each image on every page
-                io.imsave(os.path.join(SAVE_PATH, PDF_NAME + "Page" + str(page_num + 1) + '-' + str(box_num + 1) + ".png"), cropped)  # Depict bounding boxes
-
-
 @click.command(
     context_settings={
         'help_option_names': ['-h', '--help']
